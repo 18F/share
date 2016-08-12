@@ -1,9 +1,10 @@
 {
-  "name": "webrtc-codelab",
+  "name": "peer_to_peer_file_transfer",
   "version": "0.0.1",
-  "description": "WebRTC codelab",
+  "description": "Browser based file transfer, courtesy of WebRTC",
   "dependencies": {
     "node-static": "0.7.7",
-    "socket.io": "1.2.0"
+    "socket.io": "1.2.0",
+    "uswds":"0.11.0"
   }
 }
