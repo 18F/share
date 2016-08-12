@@ -14,7 +14,16 @@ Then all you'll need to do is run:
 
 `npm install` from the root directory of this repository!
 
+This will install all the packages in package.json (also found at the root directory).  
+
 If you want feel free to use [our laptop script](https://github.com/18F/laptop) which comes with [npm](https://www.npmjs.com/) and [node.js](https://nodejs.org/en/).
+
+##Description
+
+This project is built on top of [WebRTC](https://webrtc.org/) and was inspired by [this example repo](https://github.com/webrtc/samples/tree/gh-pages/src/content/datachannel/filetransfer) and [the webrtc instructions](https://codelabs.developers.google.com/codelabs/webrtc-web/#0).  The goal of the project is to provide government agencies the ability to transfer files in a secure way, without having to leave ".gov" space.  A few examples use-cases for the project:
+
+1. As an alternative to sending files with personally identifiable information over email (because email is prone to getting hacked)
+2. As an alternative to using non ".gov" spaces for storing files, such as dropbox, googledocs, et al.
 
 ## Public domain
 
