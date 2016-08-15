@@ -61,6 +61,13 @@
   <script src="js/adapter.js"></script>
   <script src="js/common.js"></script>
   <script src="js/main.js"></script>
+  <script>
+    var el = document.getElementById('fileInput');
+    el.addEventListener('change', function(e) {
+      var file = e.target.files[0].name;
+      console.log("file", file);
+    });
+  </script>
 
   <!-- US Web Design Standards Stuff -->
   <!-- <script src="js/uswds.min.js"></script> -->

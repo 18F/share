@@ -21,8 +21,11 @@
 	- concurrency - https://github.com/18F/voyage/ uses this:
 		- https://github.com/18F/voyage/blob/master/index.js on like 280 
 			has this
+	- view names / logins of other people in the room
+	- optional s3 file caching (using s3’s object expiration feature). Allow users to choose 1 day, 1 week, or 1 month expiration for their data. on cloud.gov
 
 Eric Todos:
+	- uswds, minimal example: https://github.com/EricSchles/oneinamillion
 	- Rooms by tuesday
 	- authentication with cloud.gov after that
 
