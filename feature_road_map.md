@@ -24,6 +24,8 @@
 
 Eric Todos:
 	- Rooms by tuesday
+	- authentication with cloud.gov after that
+
 
 Business case:
 	- Identify early adopters:
