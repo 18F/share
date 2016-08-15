@@ -16,8 +16,11 @@
 	- unique rooms 
 	- account creation -> create a room or it is created by default -> email a link -> new person is authorized -> download link
 
-* download the line feature:
+* down the line feature:
 	- integration with login.gov
+	- concurrency - https://github.com/18F/voyage/ uses this:
+		- https://github.com/18F/voyage/blob/master/index.js on like 280 
+			has this
 
 Eric Todos:
 	- Rooms by tuesday
