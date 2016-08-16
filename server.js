@@ -1,16 +1,24 @@
 'use strict';
 
+var express = require("express");
+var hbs = require('hbs');
+
 var os = require('os');
-var nodeStatic = require('node-static');
-var http = require('http');
 var socketIO = require('socket.io');
 
-var fileServer = new(nodeStatic.Server)();
-var app = http.createServer(function(req, res) {
-  fileServer.serve(req, res);
-}).listen(8080);
+var app = express();
+var port = 8080;
 
-var io = socketIO.listen(app);
+app.set("view engine","html");
+app.engine("html", hbs.__express);
+app.set('views', __dirname + '/views');
+app.use(express.static(__dirname + '/static'));
+
+app.get("/", function(req,res){
+  res.render("index");
+});
+
+var io = socketIO.listen(app.listen(port));
 io.sockets.on('connection', function(socket) {
 
   // convenience function to log server messages on the client
@@ -60,3 +68,4 @@ io.sockets.on('connection', function(socket) {
   });
 
 });
+

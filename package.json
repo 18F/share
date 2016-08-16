@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "description": "Browser based file transfer, courtesy of WebRTC",
   "dependencies": {
-    "node-static": "0.7.7",
-    "socket.io": "1.2.0",
-    "uswds":"0.11.0"
+    "node-static": "latest",
+    "socket.io": "latest",
+    "uswds":"latest",
+    "express":"latest",
+    "hbs":"latest"
   }
 }
