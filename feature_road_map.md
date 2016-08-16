@@ -1,5 +1,5 @@
 * auth through email 
-	- verify .gov email address for top level domain
+	- verify .gov email address for top level domain (cloud.gov requires validation)
 
 * web design standards integration
 

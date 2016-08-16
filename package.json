@@ -7,6 +7,7 @@
     "socket.io": "latest",
     "uswds":"latest",
     "express":"latest",
-    "hbs":"latest"
+    "hbs":"latest",
+    "body-parser":"latest"
   }
 }

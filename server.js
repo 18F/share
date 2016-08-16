@@ -2,6 +2,7 @@
 
 var express = require("express");
 var hbs = require('hbs');
+var bodyParser = require("body-parser");
 
 var os = require('os');
 var socketIO = require('socket.io');
@@ -9,14 +10,28 @@ var socketIO = require('socket.io');
 var app = express();
 var port = 8080;
 
+
 app.set("view engine","html");
 app.engine("html", hbs.__express);
+app.use(bodyParser.urlencoded());
 app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/static'));
 
+//views
 app.get("/", function(req,res){
   res.render("index");
 });
+
+app.get("/sender/:unique_id", function(req,res){
+  var unique_id = req.params.unique_id;
+  res.render("sender");
+});
+
+app.get("/receiver/:unique_id", function(req,res){
+  var unique_id = req.params.unique_id;
+  res.render("receiver");
+});
+
 
 var io = socketIO.listen(app.listen(port));
 io.sockets.on('connection', function(socket) {
