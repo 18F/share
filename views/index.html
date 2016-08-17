@@ -24,37 +24,46 @@
   <!-- <link rel="stylesheet" href="css/lib/uswds.min.css"> -->
   <link rel="icon" sizes="192x192" href="../../../images/webrtc-icon-192x192.png">
   <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/uswds.min.css" />
 
+<style>
+progress {
+  background-size: 20px 20px;
+}
+</style>
 </head>
 
 <body>
 
   <div id="container">
 
-    <h1>Transfer a file</h1>
+    <h1 class="usa-heading-alt">Transfer a file</h1>
     
     <section>
       <form id="fileInfo">
+        <p id="filename"></p>
+        <!-- style="display:none" -->
         <input type="file" id="fileInput" name="files"/>
+        <button id="action" onclick="findFile()">Choose a file</button>
       </form>
 
       <div class="progress">
-        <div class="label">Send progress: </div>
+        <div class="label usa-label">Send progress: </div>
         <progress id="sendProgress" max="0" value="0"></progress>
       </div>
 
       <div class="progress">
-        <div class="label">Receive progress: </div>
+        <div class="label usa-label">Receive progress: </div>
         <progress id="receiveProgress" max="0" value="0"></progress>
       </div>
 
       <div id="bitrate"></div>
-      <a id="download"></a>
+      <a class="usa-color-text-visited" id="download"></a>
       <span id="status"></span>
     </section>
     
-    <a href="https://github.com/18F/file_transfer_peer_to_peer" title="View source for this page on GitHub" id="viewSource">View source on GitHub</a>
+    <a class="usa-external_link" href="https://github.com/18F/file_transfer_peer_to_peer" title="View source for this page on GitHub" id="viewSource">View source on GitHub</a>
   </div>
 
   <!-- Web RTC specific stuff -->
@@ -62,11 +71,20 @@
   <script src="js/common.js"></script>
   <script src="js/main.js"></script>
   <script>
-    var el = document.getElementById('fileInput');
-    el.addEventListener('change', function(e) {
-      var file = e.target.files[0].name;
-      console.log("file", file);
+  
+  function findFile(){
+    var f = document.getElementById('fileInput');
+	  f.click();
+    f.addEventListener('change', function (event) {
+        var name = event.target.files[0].name;
+        n.innerText = name;
     });
+  }
+	/*b.addEventListener('click', function (event) {
+  		f.click();
+	});
+  */
+	
   </script>
 
   <!-- US Web Design Standards Stuff -->
