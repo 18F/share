@@ -8,11 +8,11 @@
 
 'use strict';
 
-var localPeer;
-var remotePeer;
-var dataConn;
+var localConnection;
+var remoteConnection;
+var sendChannel;
 var receiveChannel;
-
+var pcConstraint;
 var bitrateDiv = document.querySelector('div#bitrate');
 var fileInput = document.querySelector('input#fileInput');
 var downloadAnchor = document.querySelector('a#download');
@@ -31,8 +31,6 @@ var bitrateMax = 0;
 
 fileInput.addEventListener('change', createConnection, false);
 
-
-/*
 function createConnection() {
   var servers = null;
   pcConstraint = null;
@@ -67,24 +65,10 @@ function createConnection() {
   fileInput.disabled = true;
 }
 
-becomes
-*/
-function createConnection(){
-
-    //adds to the global scope
-    window.localPeer = localPeer = new Peer("first");
-    trace("created local connection object");
-    window.remotePeer = remotePeer = new Peer("second");
-    trace("created remote connection object");
-    fileInput.disabled = true;
-}
-/*
 function onCreateSessionDescriptionError(error) {
   trace('Failed to create session description: ' + error.toString());
 }
-*/
 
-/*
 function sendData() {
   var file = fileInput.files[0];
   trace('file is ' + [file.name, file.size, file.type,
@@ -119,38 +103,6 @@ function sendData() {
   sliceFile(0);
 }
 
-becomes
-
-*/
-
-function sendData() {
-    trace('file is ' + [file.name, file.size, file.type,
-			file.lastModifiedDate].join(' '));
-
-    var file = fileInput.files[0];
-    var chunkSize = 16384;
-    sendProgress.max = file.size;
-    receiveProgress.max = file.size;
-    var sliceFile = function(offset) {
-	var reader = new window.FileReader();
-	reader.onload = (function() {
-	    return function(e) {
-		//adding to the global scope
-		window.dataConn = dataConn = localPeer.connect("second");
-		    dataConn.send(e.target.result);
-		if (file.size > offset + e.target.result.byteLength) {
-		    window.setTimeout(sliceFile, 0, offset + chunkSize);
-		}
-	sendProgress.value = offset + e.target.result.byteLength;
-      };
-    })(file);
-    var slice = file.slice(offset, offset + chunkSize);
-    reader.readAsArrayBuffer(slice);
-  };
-  sliceFile(0);
-}
-
-/*
 function closeDataChannels() {
   trace('Closing data channels');
   sendChannel.close();
@@ -169,13 +121,55 @@ function closeDataChannels() {
   fileInput.disabled = false;
 }
 
-becomes
-*/
-
-function closeDataChannels() {
-    dataConn.close();
+function gotDescription1(desc) {
+  localConnection.setLocalDescription(desc);
+  trace('Offer from localConnection \n' + desc.sdp);
+  remoteConnection.setRemoteDescription(desc);
+  remoteConnection.createAnswer().then(
+    gotDescription2,
+    onCreateSessionDescriptionError
+  );
 }
 
+function gotDescription2(desc) {
+  remoteConnection.setLocalDescription(desc);
+  trace('Answer from remoteConnection \n' + desc.sdp);
+  localConnection.setRemoteDescription(desc);
+}
+
+function iceCallback1(event) {
+  trace('local ice callback');
+  if (event.candidate) {
+    remoteConnection.addIceCandidate(
+      event.candidate
+    ).then(
+      onAddIceCandidateSuccess,
+      onAddIceCandidateError
+    );
+    trace('Local ICE candidate: \n' + event.candidate.candidate);
+  }
+}
+
+function iceCallback2(event) {
+  trace('remote ice callback');
+  if (event.candidate) {
+    localConnection.addIceCandidate(
+      event.candidate
+    ).then(
+      onAddIceCandidateSuccess,
+      onAddIceCandidateError
+    );
+    trace('Remote ICE candidate: \n ' + event.candidate.candidate);
+  }
+}
+
+function onAddIceCandidateSuccess() {
+  trace('AddIceCandidate success.');
+}
+
+function onAddIceCandidateError(error) {
+  trace('Failed to add Ice Candidate: ' + error.toString());
+}
 
 function receiveChannelCallback(event) {
   trace('Receive Channel Callback');
@@ -243,8 +237,60 @@ function onReceiveChannelStateChange() {
   if (readyState === 'open') {
     timestampStart = (new Date()).getTime();
     timestampPrev = timestampStart;
-  
+    statsInterval = window.setInterval(displayStats, 500);
+    window.setTimeout(displayStats, 100);
+    window.setTimeout(displayStats, 300);
   }
 }
 
+// display bitrate statistics.
+function displayStats() {
+  var display = function(bitrate) {
+    bitrateDiv.innerHTML = '<strong>Current Bitrate:</strong> ' +
+        bitrate + ' kbits/sec';
+  };
 
+  if (remoteConnection &&
+      remoteConnection.iceConnectionState === 'connected') {
+    if (adapter.browserDetails.browser === 'chrome') {
+      // TODO: once https://code.google.com/p/webrtc/issues/detail?id=4321
+      // lands those stats should be preferrred over the connection stats.
+      remoteConnection.getStats(null, function(stats) {
+        for (var key in stats) {
+          var res = stats[key];
+          if (timestampPrev === res.timestamp) {
+            return;
+          }
+          if (res.type === 'googCandidatePair' &&
+              res.googActiveConnection === 'true') {
+            // calculate current bitrate
+            var bytesNow = res.bytesReceived;
+            var bitrate = Math.round((bytesNow - bytesPrev) * 8 /
+                (res.timestamp - timestampPrev));
+            display(bitrate);
+            timestampPrev = res.timestamp;
+            bytesPrev = bytesNow;
+            if (bitrate > bitrateMax) {
+              bitrateMax = bitrate;
+            }
+          }
+        }
+      });
+    } else {
+      // Firefox currently does not have data channel stats. See
+      // https://bugzilla.mozilla.org/show_bug.cgi?id=1136832
+      // Instead, the bitrate is calculated based on the number of
+      // bytes received.
+      var bytesNow = receivedSize;
+      var now = (new Date()).getTime();
+      var bitrate = Math.round((bytesNow - bytesPrev) * 8 /
+          (now - timestampPrev));
+      display(bitrate);
+      timestampPrev = now;
+      bytesPrev = bytesNow;
+      if (bitrate > bitrateMax) {
+        bitrateMax = bitrate;
+      }
+    }
+  }
+}
