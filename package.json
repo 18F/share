@@ -3,11 +3,15 @@
   "version": "0.0.1",
   "description": "Browser based file transfer, courtesy of WebRTC",
   "dependencies": {
+    "body-parser": "latest",
+    "client-sessions": "^0.7.0",
+    "ejs": "^2.5.1",
+    "express": "latest",
+    "express-session": "^1.14.0",
+    "hbs": "latest",
     "node-static": "latest",
+    "peer": "^0.2.8",
     "socket.io": "latest",
-    "uswds":"latest",
-    "express":"latest",
-    "hbs":"latest",
-    "body-parser":"latest"
+    "uswds": "latest"
   }
 }

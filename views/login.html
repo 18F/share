@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--
+ *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license
+ *  that can be found in the LICENSE file in the root of the source
+ *  tree.
+-->
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="description" content="Browser based peer to peer file transfer, courtesy of WebRTC">
+  <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+  <meta itemprop="description" content="Browser based peer to peer file transfer, courtesy of WebRTC">
+  <meta itemprop="name" content="Browser based peer to peer file transfer, courtesy of WebRTC">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta id="theme-color" name="theme-color" content="#ffffff">
+
+  <title>Transfer a file</title>
+
+  <!-- <link rel="stylesheet" href="css/lib/uswds.min.css"> -->
+  <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/uswds.min.css" />
+
+<style>
+progress {
+  background-size: 20px 20px;
+}
+</style>
+</head>
+
+<body>
+
+<form action="/login" method="post">
+  <input type=text name="username" id="username">
+  <input type=password name="password" id="password">
+  <input type=submit value="Login"></input>
+</form>
+  
+<p>{{error}}</p>
+
+  <!-- US Web Design Standards Stuff -->
+  <script src="/js/uswds.min.js"></script> 
+  
+  <!-- analytics script should go here -->
+</body>
+</html>
