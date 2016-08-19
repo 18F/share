@@ -23,7 +23,7 @@
   <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="/css/main.css" />
   <link rel="stylesheet" href="/css/uswds.min.css" />
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script> 
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>  
   <script type="text/javascript" src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
 
 <style>
@@ -35,23 +35,18 @@ progress {
 
 <body>
 
-  {{#if hi}}
-    <p>Whatever</p>
-  {{else}}
-    <p>OMFG</p>
-  {{/if}}
-  <div id="container">
 
+  <div id="container">
+  
     <h1 class="usa-heading-alt">Transfer a file</h1>
     
     <section>
-    <script> alert({{peer}});</script>
-    {{#if peer.peer2}}
+    {{#if peers.first }}
       
       <form id="fileInfo">
         <p id="filename"></p>
         <!-- style="display:none" -->
-        <input type="file" id="fileInput" name="files"/>
+        <div <input type="file" id="fileInput" name="files"/>
         <button id="action">Choose a file</button>
       </form>
 
@@ -59,6 +54,22 @@ progress {
         <div class="label usa-label">Send progress: </div>
         <progress id="sendProgress" max="0" value="0"></progress>
       </div>
+      <script>
+  
+        var f = document.getElementById('fileInput');
+        var b = document.getElementById('action');
+        var n = document.getElementById('filename');
+
+        b.addEventListener('click', function (event) {
+          f.click();
+        });
+
+        f.addEventListener('change', function (event) {
+          var name = event.target.files[0].name;
+          n.innerText = name;
+        })
+        
+      </script>
     {{else}}
 
       <div class="progress">
@@ -75,30 +86,13 @@ progress {
     <a class="usa-external_link" href="https://github.com/18F/file_transfer_peer_to_peer" title="View source for this page on GitHub" id="viewSource">View source on GitHub</a>
   </div>
 
-  <!-- Web RTC specific stuff -->
-  <!--<script src="/js/adapter.js"></script> -->
-  <script src="/js/common.js"></script>
-  <script src="/js/main.js"></script>
+
+
+
   <script src="/js/client.js"></script>
-  <script>
-  
-  var f = document.getElementById('fileInput');
-  var b = document.getElementById('action');
-  var n = document.getElementById('filename');
-
-  b.addEventListener('click', function (event) {
-    f.click();
-  });
-
-  f.addEventListener('change', function (event) {
-    var name = event.target.files[0].name;
-    n.innerText = name;
-  })
-	
-  </script>
 
   <!-- US Web Design Standards Stuff -->
-  <script src="/js/uswds.min.js"></script> 
+  <script src="/js/uswds.min.js"></script>
   
   <!-- analytics script should go here -->
 </body>

@@ -11,8 +11,8 @@ research guild does review -
 
 data service team
 */
-  var user = '{{user}}';
-  alert(user);
+
+
   /*$(document).ready(function() {
     // Create a new Peer with our demo API key, with debug set to true so we can
     // see what's going on.

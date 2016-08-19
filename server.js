@@ -13,14 +13,11 @@ app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/static'));
 
 app.get("/",function(req, res) {
-	res.render('index',
-	{
-		peers:{
-				peer1: "hello",
-				peer2: false
-			},
-		hi: 
-
+	res.render('index', {
+		peers: {
+			first: true,
+			second: false
+		}
 	});
 });
 
@@ -29,7 +26,7 @@ app.get("/:unique_id", function(req, res){
 		{
 			peers:{
 					peer1: false,
-					peer2: 100
+					peer2: true
 				}
 		});
 })

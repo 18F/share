@@ -10,6 +10,7 @@
     "express-session": "^1.14.0",
     "hbs": "latest",
     "node-static": "latest",
+    "nodemon": "^1.10.2",
     "peer": "^0.2.8",
     "socket.io": "latest",
     "uswds": "latest"
