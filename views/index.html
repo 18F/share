@@ -47,13 +47,15 @@ progress {
         <p id="filename"></p>
         <!-- style="display:none" -->
         <div <input type="file" id="fileInput" name="files"/>
-        <button id="action">Choose a file</button>
+        <button id="file_upload" onclick="generatePeerAndIds();">Choose a file</button>
       </form>
 
       <div class="progress">
         <div class="label usa-label">Send progress: </div>
         <progress id="sendProgress" max="0" value="0"></progress>
       </div>
+
+      <p id="url_to_share"></p>
       <script>
   
         var f = document.getElementById('fileInput');
@@ -72,6 +74,7 @@ progress {
       </script>
     {{else}}
 
+    <div onload="parseUrlAndConnectToPeer1();"></div>
       <div class="progress">
         <div class="label usa-label">Receive progress: </div>
         <progress id="receiveProgress" max="0" value="0"></progress>
@@ -80,15 +83,23 @@ progress {
       <div id="bitrate"></div>
       <a class="usa-color-text-visited" id="download"></a>
       <span id="status"></span>
+    
     {{/if}}
     </section>
+    
+    <p id="helloworld"></p>
     
     <a class="usa-external_link" href="https://github.com/18F/file_transfer_peer_to_peer" title="View source for this page on GitHub" id="viewSource">View source on GitHub</a>
   </div>
 
 
 
-
+  <script>
+    //courtesy of http://stackoverflow.com/questions/10985802/why-does-a-button-cause-my-whole-web-page-to-reload
+    $("#file_upload").click( function(event) {
+    event.preventDefault();
+    });
+  </script>
   <script src="/js/client.js"></script>
 
   <!-- US Web Design Standards Stuff -->

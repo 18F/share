@@ -1,46 +1,64 @@
 // This is a very simple code example. See chat.html for a more involved
-  // example.
+// example.
 
-/*
-make data management as easy as possible
-make maintainence as easy as possible
-make putting data into the authorative
-putting data people into positions of power
+var peer1;
+var peer2;
 
-research guild does review - 
+// Returns a random integer between min (included) and max (excluded)
+// Using Math.round() will give you a non-uniform distribution!
+// courtesy of https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 
-data service team
-*/
+function generatePeerAndIds() {
 
-
-  /*$(document).ready(function() {
-    // Create a new Peer with our demo API key, with debug set to true so we can
-    // see what's going on.
-    peer1 = new Peer({ 
-      key: 'hello-there', 
+    peer1ID = ""+getRandomInt(0,100000); //implicit to string conversion
+    peer2ID = ""+getRandomInt(0,100000); //implicit to string conversion
+    while(peer2ID === peer1ID){
+    	//ensures uniqueness
+    	peer2ID = ""+getRandomInt(0,100000);
+    }
+    window.peer1 = peer1 = new Peer(peer1ID,{  
       host: location.hostname,
       port: location.port || (location.protocol === "https: "? 443 : 80),
       path: '/peerjs',
       debug: 3});
-    // Create another Peer with our demo API key to connect to.
-    peer2 = new Peer({ 
-      key: 'hello-there', 
+   
+ 	$("#url_to_share").append("localhost:8080/"+peer1ID+"-"+peer2ID);   
+}
+
+function parseUrlAndConnectToPeer1(){
+    
+    url = window.location.pathname;
+    peer1ID = url.split("-")[0].replace("/","");
+    peer2ID = url.split("-")[1];
+    
+    /*window.peer1 = peer1 = new Peer(peer1ID,{  
+      host: location.hostname,
+      port: location.port || (location.protocol === "https: "? 443 : 80),
+      path: '/peerjs',
+      debug: 3});*/
+
+    window.peer2 = peer2 = new Peer(peer2ID,{ 
       host: location.hostname,
       port: location.port || (location.protocol === "https: "? 443 : 80),
       path: '/peerjs',
       debug: 3});
-    // The `open` event signifies that the Peer is ready to connect with other
-    // Peers and, if we didn't provide the Peer with an ID, that an ID has been
-    // assigned by the server.
+
     peer1.on('open', function(id){
-      peerId1 = id;
-      var c = peer2.connect(peerId1);
-      c.on('data', function(data) {
+      var conn = peer2.connect(peerID1);
+    });
+}
+    
+/*
+    conn.on('data', function(data) {
         // When we receive 'Hello', send ' world'.
         $('#helloworld').append(data);
-        c.send(' peer');
+        conn.send(' peer');
       });
-    });
     // Wait for a connection from the second peer.
     peer1.on('connection', function(connection) {
       // This `connection` is a DataConnection object with which we can send
@@ -57,6 +75,5 @@ data service team
         $('#helloworld').append(data);
       });
     });
-    // Show browser version
-    $('#browsers').text(navigator.userAgent);
-  });*/
+  });
+  */
