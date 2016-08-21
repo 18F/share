@@ -1,8 +1,15 @@
 // This is a very simple code example. See chat.html for a more involved
 // example.
 
-var peer1;
-var peer2;
+/*
+
+The general idea here comes from:
+https://github.com/laike9m/peerjs-with-nodewebkit-tutorial
+
+*/
+
+window.socket = io.connect("http://localhost:8080");
+var peer1ID;
 
 // Returns a random integer between min (included) and max (excluded)
 // Using Math.round() will give you a non-uniform distribution!
@@ -13,67 +20,58 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-function generatePeerAndIds() {
+function generateIds() {
 
-    peer1ID = ""+getRandomInt(0,100000); //implicit to string conversion
+    window.peer1ID = peer1ID = ""+getRandomInt(0,100000); //implicit to string conversion
     peer2ID = ""+getRandomInt(0,100000); //implicit to string conversion
     while(peer2ID === peer1ID){
     	//ensures uniqueness
     	peer2ID = ""+getRandomInt(0,100000);
     }
-    window.peer1 = peer1 = new Peer(peer1ID,{  
+    
+
+ 	$("#url_to_share").append("localhost:8080/"+peer1ID+"-"+peer2ID);   
+}
+
+function sendFile(){
+  //comes from generateIDs
+  peer1 = new Peer(peer1ID,{  
       host: location.hostname,
       port: location.port || (location.protocol === "https: "? 443 : 80),
       path: '/peerjs',
       debug: 3});
    
- 	$("#url_to_share").append("localhost:8080/"+peer1ID+"-"+peer2ID);   
-}
+    var connection = peer1.connect(peer2ID);
+    connection.on("open",function(){
+      console.log("sender data connection open");
+      window.socket.on("sendToPeer", function(data){
+        console.log("sent data: ", Date());
+        connection.send(data);
+        peer.disconnect();
+      });
+      window.socket.emit("send");
+    });
 
+}
 function parseUrlAndConnectToPeer1(){
     
     url = window.location.pathname;
-    peer1ID = url.split("-")[0].replace("/","");
     peer2ID = url.split("-")[1];
     
-    /*window.peer1 = peer1 = new Peer(peer1ID,{  
-      host: location.hostname,
-      port: location.port || (location.protocol === "https: "? 443 : 80),
-      path: '/peerjs',
-      debug: 3});*/
-
-    window.peer2 = peer2 = new Peer(peer2ID,{ 
+    peer2 = peer2 = new Peer(peer2ID,{ 
       host: location.hostname,
       port: location.port || (location.protocol === "https: "? 443 : 80),
       path: '/peerjs',
       debug: 3});
 
-    peer1.on('open', function(id){
-      var conn = peer2.connect(peerID1);
+    peer2.on('connection', function(connection){
+      connection.on("open", function(){
+      	console.log("receiver data connection open");
+      	connection.on("data", function(data){
+      		console.log("receive data: ", Date());
+      		window.socket.emit("receive", data);
+      	});
+      });
     });
 }
     
-/*
-    conn.on('data', function(data) {
-        // When we receive 'Hello', send ' world'.
-        $('#helloworld').append(data);
-        conn.send(' peer');
-      });
-    // Wait for a connection from the second peer.
-    peer1.on('connection', function(connection) {
-      // This `connection` is a DataConnection object with which we can send
-      // data.
-      // The `open` event firing means that the connection is now ready to
-      // transmit data.
-      connection.on('open', function() {
-        // Send 'Hello' on the connection.
-        connection.send('Hello,');
-      });
-      // The `data` event is fired when data is received on the connection.
-      connection.on('data', function(data) {
-        // Append the data to body.
-        $('#helloworld').append(data);
-      });
-    });
-  });
-  */

@@ -25,7 +25,9 @@
   <link rel="stylesheet" href="/css/uswds.min.css" />
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>  
   <script type="text/javascript" src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
-
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+  <script type="text/javascript" src="http://localhost:8080/static/js/socket.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
 <style>
 progress {
   background-size: 20px 20px;
@@ -46,8 +48,12 @@ progress {
       <form id="fileInfo">
         <p id="filename"></p>
         <!-- style="display:none" -->
-        <div <input type="file" id="fileInput" name="files"/>
-        <button id="file_upload" onclick="generatePeerAndIds();">Choose a file</button>
+        <input type="file" id="fileInput" name="files"/>
+        <button id="file_upload" onclick="generateIds();">Choose a file</button>
+      </form>
+
+      <form id="send_file">
+        <button id="fileSender" onclick="sendFile();">Send a file</button>
       </form>
 
       <div class="progress">
@@ -74,7 +80,7 @@ progress {
       </script>
     {{else}}
 
-    <div onload="parseUrlAndConnectToPeer1();"></div>
+    <button onclick="parseUrlAndConnectToPeer1();">Receive File</button>
       <div class="progress">
         <div class="label usa-label">Receive progress: </div>
         <progress id="receiveProgress" max="0" value="0"></progress>
@@ -98,6 +104,10 @@ progress {
     //courtesy of http://stackoverflow.com/questions/10985802/why-does-a-button-cause-my-whole-web-page-to-reload
     $("#file_upload").click( function(event) {
     event.preventDefault();
+    });
+
+    $("#fileSender").click( function(event){
+      event.preventDefault();
     });
   </script>
   <script src="/js/client.js"></script>

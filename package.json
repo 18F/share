@@ -12,7 +12,7 @@
     "node-static": "latest",
     "nodemon": "^1.10.2",
     "peer": "^0.2.8",
-    "socket.io": "latest",
+    "socket.io": "^1.4.8",
     "uswds": "latest"
   }
 }
