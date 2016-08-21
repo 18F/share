@@ -12,6 +12,10 @@
 	- Should look like it took 1000 hrs to build
 	- for content benchmark - transfers "10 GB from NYC to Chicago in N minutes"
 
+* file chunking:
+	- http://www.html5rocks.com/en/tutorials/file/dndfiles/
+	- https://github.com/webrtc/samples/blob/gh-pages/src/content/datachannel/filetransfer/js/main.js
+
 * work flow:
 	- unique rooms 
 	- account creation -> create a room or it is created by default -> email a link -> new person is authorized -> download link
@@ -26,7 +30,7 @@
 
 Eric Todos:
 	- uswds, minimal example: https://github.com/EricSchles/oneinamillion
-	- Rooms by tuesday
+	- Rooms
 	- authentication with cloud.gov after that
 
 
