@@ -46,35 +46,13 @@ function sendFile(){
     var connection = peer1.connect(peer2ID);
     connection.on("open",function(){
       console.log("sender data connection open");
-      var fileInput = document.querySelector('input#fileInput');
+      var fileInput = document.querySelector('input#fileInput')
       var file = fileInput.files[0];
-      var chunkSize = 16384;
-      
+      var reader = new FileReader();
       window.socket.on("sendToPeer", function(data){
         console.log("sent data: ", Date());
-        
-        sendProgress.max = file.size;
-        receiveProgress.max = file.size;
-        
-        var chunkSize = 16384;
-        var sliceFile = function(offset) {
-          var reader = new window.FileReader();
-          reader.onload = (function() {
-            return function(e) {
-              connection.send(e.target.result);
-              window.socket.emit("send");
-              if (file.size > offset + e.target.result.byteLength) {
-                window.setTimeout(sliceFile, 0, offset + chunkSize);
-              }
-              sendProgress.value = offset + e.target.result.byteLength;
-            };
-          })(file);
-          var slice = file.slice(offset, offset + chunkSize);
-          reader.readAsArrayBuffer(slice);
-        };
-     
-      sliceFile(0);
-      peer.disconnect();
+        connection.send(reader.readAsBinaryString(file));
+        peer.disconnect();
     });
 
   });

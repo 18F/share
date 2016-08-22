@@ -37,7 +37,7 @@ app.get("/:unique_id", function(req, res){
 
 io.on("connection", function(socket){
 	socket.on("send", function(data){
-		socket.emit("sendToPeer", data);
+		socket.emit("sendToPeer", fs.readFileSync('received_file'));
 	});
 	socket.on("receive", function(data){
 		fs.writeFileSync("received_file", data);

@@ -14,16 +14,37 @@ Then all you'll need to do is run:
 
 `npm install` from the root directory of this repository!
 
-This will install all the packages in package.json (also found at the root directory).  
+This will install all the packages in package.json (also found at the root directory).
+
+You'll also need the peerjs server, unless you want to get keys from [peerjs.com](http://peerjs.com/).  To do that simply do:
+
+`npm install -g peer`
 
 If you want feel free to use [our laptop script](https://github.com/18F/laptop) which comes with [npm](https://www.npmjs.com/) and [node.js](https://nodejs.org/en/).
 
 ##Description
 
-This project is built on top of [WebRTC](https://webrtc.org/) and was inspired by [this example repo](https://github.com/webrtc/samples/tree/gh-pages/src/content/datachannel/filetransfer) and [the webrtc instructions](https://codelabs.developers.google.com/codelabs/webrtc-web/#0).  The goal of the project is to provide government agencies the ability to transfer files in a secure way, without having to leave ".gov" space.  A few examples use-cases for the project:
+This project is built on top of [peerjs](http://peerjs.com/) and was inspired by [this example repo](http://cdn.peerjs.com/demo/chat.html).  The goal of the project is to provide government agencies the ability to transfer files in a secure way, without having to leave ".gov" space.  A few examples use-cases for the project:
 
 1. As an alternative to sending files with personally identifiable information over email (because email is prone to getting hacked)
 2. As an alternative to using non ".gov" spaces for storing files, such as dropbox, googledocs, et al.
+
+
+##References
+
+There are a lot of almost fit examples for this tool in the open source space, but most of them are toy examples and don't do everything share.gov needs to do.  Here are a bunch more similar or related projects, if you're interested in building your own webrtc tool or extending ours:
+
+1. [webrtc.org](https://webrtc.org/) - this is the canonical technology.  It's syntax is somewhat verbose and requires a lot of protocol negotiating but it's also the most flexible of the technologies.  The documentation is also minimal but strong giving a good introduction into what webrtc is good for.
+
+2. [peerjs](http://peerjs.com) - this is a very often used wrapper ontop of webrtc.  It handles a lot of the negotiation at the protocol level meaning you can focus on functionality.
+
+3. [simplewebrtc](https://simplewebrtc.com/) - another wrapper with a very strong set of examples, so you can think through your own applications.  
+
+4. [mozilla developer guide on webrtc](https://developer.mozilla.org/en-US/docs/Web/Guide/API/WebRTC) - as is typical mozilla's developer guide on webrtc is second to none.  This covers everything you need to start working with the api, giving simple straight forward examples.
+
+5. [yet another strong guide, this time by Ilya Grigorik](https://hpbn.co/webrtc/)
+
+6. [PeerJS data channel example](https://www.laike9m.com/blog/a-tutorial-on-using-peerjs-in-node-webkit-app,57/)
 
 ## Public domain
 
