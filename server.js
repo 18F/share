@@ -4,11 +4,9 @@ var express = require('express');
 var hbs = require('hbs');
 var bodyParser = require("body-parser");
 var app = express();
-var server = require("http").Server(app);
-var io = require("socket.io")(server);
+var server = app.listen(8080);
+var io = require('socket.io').listen(server);
 var fs = require("fs");
-
-server.listen(8080);
 
 app.set('view engine', 'html');
 app.engine("html", hbs.__express);
@@ -25,7 +23,7 @@ app.get("/",function(req, res) {
 	});
 });
 
-app.get("/:unique_id", function(req, res){
+app.get("/receiver/:unique_id", function(req, res){
 	res.render("index",
 		{
 			peers:{
@@ -37,7 +35,8 @@ app.get("/:unique_id", function(req, res){
 
 io.on("connection", function(socket){
 	socket.on("send", function(data){
-		socket.emit("sendToPeer", fs.readFileSync('received_file'));
+		console.trace(data);
+		socket.emit("sendToPeer", fs.readFileSync(data));
 	});
 	socket.on("receive", function(data){
 		fs.writeFileSync("received_file", data);

@@ -26,7 +26,6 @@
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>  
   <script type="text/javascript" src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
-  <script type="text/javascript" src="http://localhost:8080/static/js/socket.js"></script>
   <script src="/socket.io/socket.io.js"></script>
 <style>
 progress {
@@ -48,7 +47,7 @@ progress {
       <form id="fileInfo">
         <p id="filename"></p>
         <!-- style="display:none" -->
-        <input type="file" id="fileInput" name="files"/>
+        <input style="display:none" type="file" id="fileInput" name="files"/>
         <button id="file_upload" onclick="generateIds();">Choose a file</button>
       </form>
 
@@ -61,11 +60,11 @@ progress {
         <progress id="sendProgress" max="0" value="0"></progress>
       </div>
 
-      <p id="url_to_share"></p>
+      <a id="url_to_share"></a>
       <script>
   
         var f = document.getElementById('fileInput');
-        var b = document.getElementById('action');
+        var b = document.getElementById('file_upload');
         var n = document.getElementById('filename');
 
         b.addEventListener('click', function (event) {
@@ -74,13 +73,13 @@ progress {
 
         f.addEventListener('change', function (event) {
           var name = event.target.files[0].name;
-          n.innerText = name;
+          n.innerText = "File chosen: " + name;
         })
         
       </script>
     {{else}}
 
-    <button onclick="parseUrlAndConnectToPeer1();">Receive File</button>
+    <button onclick="parseUrlAndConnectToPeer1();">Indicate you are ready to receive file</button>
       <div class="progress">
         <div class="label usa-label">Receive progress: </div>
         <progress id="receiveProgress" max="0" value="0"></progress>
@@ -93,7 +92,7 @@ progress {
     {{/if}}
     </section>
     
-    <p id="helloworld"></p>
+
     
     <a class="usa-external_link" href="https://github.com/18F/file_transfer_peer_to_peer" title="View source for this page on GitHub" id="viewSource">View source on GitHub</a>
   </div>
