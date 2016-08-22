@@ -20,7 +20,33 @@ You'll also need the peerjs server, unless you want to get keys from [peerjs.com
 
 `npm install -g peer`
 
-If you want feel free to use [our laptop script](https://github.com/18F/laptop) which comes with [npm](https://www.npmjs.com/) and [node.js](https://nodejs.org/en/).
+##For development
+
+While not required, the following is recommended if you plan on doing any development with this project:
+
+`npm install -g nodemon`
+
+If you want, feel free to use [our laptop script](https://github.com/18F/laptop) which comes with [npm](https://www.npmjs.com/), [node.js](https://nodejs.org/en/) and whole bunch of other tools!
+
+##Setup
+
+To run the server simply do:
+
+`nodemon server.js #for development`
+
+OR
+
+`node server.js #for production`
+
+AND
+
+`./peerjs_server_start.sh` 
+
+If you get an error about write permissions, simply do: 
+
+`chmod +x peerjs_server_start.sh`
+
+The peerjs_server handles key management between peers, to ensure that no 2 peers have the same IDs.  It also handles a lot of the signaling server pieces.  However, you can add on more signaling with `socket.io` code on the client and server side (like we're doing here).
 
 ##Description
 
