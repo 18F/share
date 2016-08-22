@@ -1,4 +1,4 @@
-## File Transfer Peer To Peer
+## Share.gov - File Transfer Peer To Peer
 
 Welcome to the File Transfer Peer to Peer project!  It is currently a prototype, or in pre-alpha (as we like to say).
 
