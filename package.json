@@ -5,6 +5,7 @@
   "dependencies": {
     "body-parser": "latest",
     "client-sessions": "^0.7.0",
+    "download": "^5.0.2",
     "ejs": "^2.5.1",
     "express": "latest",
     "express-session": "^1.14.0",

@@ -27,6 +27,7 @@
   <script type="text/javascript" src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
+  <script src='https://js.zapjs.com/js/download.js'></script>
 <style>
 progress {
   background-size: 20px 20px;
@@ -52,7 +53,8 @@ progress {
       </form>
 
       <form id="send_file">
-        <button id="fileSender" onclick="sendFile();">Send a file</button>
+        <!-- <button id="fileSender" onclick="sendFile();">Send a file</button> -->
+        <button id="fileSender" onclick="sendData();">Send a file</button>
       </form>
 
       <div class="progress">
@@ -79,7 +81,8 @@ progress {
       </script>
     {{else}}
 
-    <button onclick="parseUrlAndConnectToPeer1();">Indicate you are ready to receive file</button>
+    <!-- <button onclick="parseUrlAndConnectToPeer1();">Indicate you are ready to receive file</button> -->
+    <button onclick="receiveData();">Indicate you are ready to receive file</button>
       <div class="progress">
         <div class="label usa-label">Receive progress: </div>
         <progress id="receiveProgress" max="0" value="0"></progress>

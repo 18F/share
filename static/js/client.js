@@ -15,6 +15,8 @@ var receiveProgress = document.querySelector('progress#receiveProgress');
 var downloadAnchor = document.querySelector("a#download");
 var receiveBuffer = [];
 var receivedSize = 0;
+
+var buffer = [];
 // Returns a random integer between min (included) and max (excluded)
 // Using Math.round() will give you a non-uniform distribution!
 // courtesy of https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
@@ -36,6 +38,44 @@ function generateIds() {
  	$("#url_to_share").append("localhost:8080/receiver/"+peer1ID+"-"+peer2ID);   
   $("#url_to_share").attr("href","localhost:8080/receiver/"+peer1ID+"-"+peer2ID);
 }
+
+function sendData(){
+  peer1 = new Peer(peer1ID,{  
+        host: location.hostname,
+        port: location.port || (location.protocol === "https: "? 443 : 80),
+        path: '/peerjs',
+        debug: 3});
+  var conn = peer1.connect(peer2ID);
+  conn.on("open", function(){
+    for (var i = 0; i < 15; i++){
+      conn.send("hi!");
+    }
+  });
+  peer1.disconnect();
+}
+
+function receiveData(){
+  url = window.location.pathname;
+  peer2ID = url.split("-")[1];
+    
+  peer2 = new Peer(peer2ID,{ 
+      host: location.hostname,
+      port: location.port || (location.protocol === "https: "? 443 : 80),
+      path: '/peerjs',
+      debug: 3});
+  peer2.on("connection", function(conn){
+    conn.on("data", function(data){
+      buffer.push(data);
+    });
+  });
+
+  peer2.on("close", function(){
+    console.log("got here");
+    download(new Blob(buffer),"texter.txt","text/plain");
+  });
+}
+
+
 
 function sendFile(){
     //comes from generateIDs
@@ -113,9 +153,11 @@ function parseUrlAndConnectToPeer1(){
         var received = new window.Blob(receiveBuffer);
         receiveBuffer = [];
         receivedSize = 0;
-
+        download(received, "picture.png","text/plain");
+        /*
         downloadAnchor.href = URL.createObjectURL(received);
-        downloadAnchor.download = "file";
+        
+        downloadAnchor.download = "file";*/
         peer2.disconnect();
       });
     });
