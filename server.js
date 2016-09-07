@@ -7,7 +7,10 @@ var cfenv = require("cfenv");
 var app = express();
 
 var appEnv = cfenv.getAppEnv();
+//deploy to cloud.gov or cloud foundry
 var server = app.listen(appEnv.port);
+//deploy locally
+//var server = app.listen(8080);
 var io = require('socket.io').listen(server);
 var fs = require("fs");
 

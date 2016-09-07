@@ -20,7 +20,12 @@ if (window.location.port != ''){
   base_url += ":"+window.location.port;
 }
 
-window.socket = io.connect(window.location.href);
+var socket_io_on_cloud_gov = window.location.href.substr(0, window.location.href.length - 1) + ":4443";
+//removes trailing "/" on server ^
+
+//locally
+//window.socket = io.connect(window.location.href);
+
 var peer1ID;
 var sendProgress = document.querySelector('progress#sendProgress');
 var receiveProgress = document.querySelector('progress#receiveProgress');
@@ -74,7 +79,7 @@ function sendData(){
   window.conn = conn;
   window.file = file;
   window.reader = reader;
-  window.file_content = file_content;  
+  //window.file_content = file_content;  
 }
 
 function receiveData(){
