@@ -13,6 +13,13 @@ mime types: https://github.com/jshttp/mime-types
 
 */
 
+
+var base_url = window.location.protocol + "//" + window.location.hostname;
+
+if (window.location.port != ''){
+  base_url += ":"+window.location.port;
+}
+
 window.socket = io.connect(window.location.href);
 var peer1ID;
 var sendProgress = document.querySelector('progress#sendProgress');
@@ -41,8 +48,8 @@ function generateIds() {
     	peer2ID = ""+getRandomInt(0,100000);
     }
     
-  $("#url_to_share").append("localhost:8080/receiver/"+peer1ID+"-"+peer2ID);   
-  $("#url_to_share").attr("href","localhost:8080/receiver/"+peer1ID+"-"+peer2ID);
+  $("#url_to_share").append(base_url+"/receiver/"+peer1ID+"-"+peer2ID);   
+  $("#url_to_share").attr("href",base_url+"/receiver/"+peer1ID+"-"+peer2ID);
 }
 
 function sendData(){
