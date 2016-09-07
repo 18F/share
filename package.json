@@ -18,7 +18,7 @@
     "cfenv": "*"
   },
   "scripts" : {
-    "start": "node server.js"
+    "start": "/bin/sh ./peerjs_server_start.sh & node server.js"
   }
 
 }

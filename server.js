@@ -3,10 +3,14 @@
 var express = require('express');
 var hbs = require('hbs');
 var bodyParser = require("body-parser");
+var cfenv = require("cfenv");
 var app = express();
-var server = app.listen(8080);
+
+var appEnv = cfenv.getAppEnv();
+var server = app.listen(appEnv.port);
 var io = require('socket.io').listen(server);
 var fs = require("fs");
+
 
 app.set('view engine', 'html');
 app.engine("html", hbs.__express);
