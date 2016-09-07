@@ -13,7 +13,7 @@ mime types: https://github.com/jshttp/mime-types
 
 */
 
-window.socket = io.connect("http://localhost:8080");
+window.socket = io.connect(window.location.href);
 var peer1ID;
 var sendProgress = document.querySelector('progress#sendProgress');
 var receiveProgress = document.querySelector('progress#receiveProgress');
