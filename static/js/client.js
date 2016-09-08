@@ -20,11 +20,14 @@ if (window.location.port != ''){
   base_url += ":"+window.location.port;
 }
 
-var socket_io_on_cloud_gov = window.location.href.substr(0, window.location.href.length - 1) + ":4443";
+var socket_io_on_cloud_gov = window.location.protocol + '//' + window.location.hostname + ":4443" //+ window.location.pathname
 //removes trailing "/" on server ^
 
 //locally
 //window.socket = io.connect(window.location.href);
+
+//cloud.gov server
+window.socket = io.connect(socket_io_on_cloud_gov);
 
 var peer1ID;
 var sendProgress = document.querySelector('progress#sendProgress');
@@ -60,7 +63,7 @@ function generateIds() {
 function sendData(){
   peer1 = new Peer(peer1ID,{  
         host: location.hostname,
-        port: location.port || (location.protocol === "https: "? 443 : 80),
+        port: 4443,//location.port || (location.protocol === "https:" ? 443 : 80),
         path: '/peerjs',
         debug: 3});
 
@@ -89,7 +92,7 @@ function receiveData(){
   alert("about to create peer2");
   peer2 = new Peer(peer2ID,{ 
       host: location.hostname,
-      port: location.port || (location.protocol === "https: "? 443 : 80),
+      port: 4443,//location.port || (location.protocol === "https:" ? 443 : 80),
       path: '/peerjs',
       debug: 3});
 
