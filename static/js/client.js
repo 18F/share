@@ -36,6 +36,7 @@ var downloadAnchor = document.querySelector("a#download");
 var receiveBuffer = [];
 var receivedSize = 0;
 var buffer = [];
+var debug = false;
 
 // Returns a random integer between min (included) and max (excluded)
 // Using Math.round() will give you a non-uniform distribution!
@@ -72,9 +73,9 @@ function sendData(){
   var reader = new window.FileReader();
   
   var conn = peer1.connect(peer2ID);
-  alert("connected to peer2");
+  if (debug){alert("connected to peer2");}
   conn.on("open", function(){
-    alert("connection started on connection open");
+    if (debug){alert("connection started on connection open");}
     console.log("logging transfer");
     conn.send(file);
     peer1.disconnect();
@@ -89,28 +90,28 @@ function receiveData(){
   url = window.location.pathname;
   peer2ID = url.split("-")[1];
     
-  alert("about to create peer2");
+  if (debug){alert("about to create peer2");}
   peer2 = new Peer(peer2ID,{ 
       host: location.hostname,
       port: 4443,//location.port || (location.protocol === "https:" ? 443 : 80),
       path: '/peerjs',
       debug: 3});
 
-  alert("peer2 created");
+  if (debug) {alert("peer2 created");}
   peer2.on("connection", function(conn){
-    alert("connection established");
+    if (debug) {alert("connection established");}
     conn.on("data", function(data){
       download(data);
     });
     
   });
 
-  alert("data added to global scope");
+  if (debug){alert("data added to global scope");}
   //puts buffer in global state
   window.buffer = buffer;
   window.peer2 = peer2;
   peer2.on("close", function(){
-    alert("connection closed");
+    if (debug){alert("connection closed");}
   	peer2.disconnect();
   });
   
