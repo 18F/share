@@ -20,14 +20,14 @@ if (window.location.port != ''){
   base_url += ":"+window.location.port;
 }
 
-var socket_io_on_cloud_gov = window.location.protocol + '//' + window.location.hostname + ":4443" //+ window.location.pathname
+//var socket_io_on_cloud_gov = window.location.protocol + '//' + window.location.hostname + ":4443" //+ window.location.pathname
 //removes trailing "/" on server ^
 
 //locally
-//window.socket = io.connect(window.location.href);
+window.socket = io.connect(window.location.href);
 
 //cloud.gov server
-window.socket = io.connect(socket_io_on_cloud_gov);
+//window.socket = io.connect(socket_io_on_cloud_gov);
 
 var peer1ID;
 var sendProgress = document.querySelector('progress#sendProgress');
@@ -64,7 +64,8 @@ function generateIds() {
 function sendData(){
   peer1 = new Peer(peer1ID,{  
         host: location.hostname,
-        port: 4443,//location.port || (location.protocol === "https:" ? 443 : 80),
+        //port: 4443, //on server
+        port: location.port || (location.protocol === "https:" ? 443 : 80), //locally
         path: '/peerjs',
         debug: 3});
 
@@ -80,6 +81,10 @@ function sendData(){
     conn.send(file);
     peer1.disconnect();
   });
+
+  /*conn.on("close", function(){
+
+  });*/
   window.conn = conn;
   window.file = file;
   window.reader = reader;
@@ -93,7 +98,8 @@ function receiveData(){
   if (debug){alert("about to create peer2");}
   peer2 = new Peer(peer2ID,{ 
       host: location.hostname,
-      port: 4443,//location.port || (location.protocol === "https:" ? 443 : 80),
+      //port: 4443, //on server
+      port: location.port || (location.protocol === "https:" ? 443 : 80), //locally
       path: '/peerjs',
       debug: 3});
 
@@ -114,7 +120,6 @@ function receiveData(){
     if (debug){alert("connection closed");}
   	peer2.disconnect();
   });
-  
 }
 
 

@@ -6,11 +6,11 @@ var bodyParser = require("body-parser");
 var cfenv = require("cfenv");
 var app = express();
 
-var appEnv = cfenv.getAppEnv();
+//var appEnv = cfenv.getAppEnv();
 //deploy to cloud.gov or cloud foundry
-var server = app.listen(appEnv.port);
+//var server = app.listen(appEnv.port);
 //deploy locally
-//var server = app.listen(8080);
+var server = app.listen(8080);
 var io = require('socket.io').listen(server);
 var fs = require("fs");
 
@@ -22,7 +22,11 @@ app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/static'));
 
 app.get("/",function(req, res) {
-	res.render('index', {
+	res.render('index');
+});
+
+app.get("/sender",function(req, res) {
+	res.render('send_receive', {
 		peers: {
 			first: true,
 			second: false
@@ -31,7 +35,7 @@ app.get("/",function(req, res) {
 });
 
 app.get("/receiver/:unique_id", function(req, res){
-	res.render("index",
+	res.render("send_receive",
 		{
 			peers:{
 					peer1: false,
@@ -39,6 +43,8 @@ app.get("/receiver/:unique_id", function(req, res){
 				}
 		});
 })
+
+
 
 io.on("connection", function(socket){
 	socket.on("send", function(data){
