@@ -8,7 +8,7 @@ This project is written purely in javascript, so you'll need to install [npm](ht
 
 You can install both with:
 
-`curl -L http://git.io/n-install | bash -s -- -y latest`
+`curl -L https://git.io/n-install | bash -s -- -y latest`
 
 Then all you'll need to do is run:
 
